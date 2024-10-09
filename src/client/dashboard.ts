@@ -29,7 +29,6 @@ export default function (editor) {
 
   editor.Commands.add(OPEN, {
     async run(editor) {
-      console.log('dashboard:open', { websites })
       open = true
       editor.Modal.open({
         title: 'Your websites',
@@ -52,7 +51,6 @@ function doRenderDialog(editor, websites) {
 }
 
 function renderDialog(editor, websites) {
-  console.log('renderDialog', { websites })
   return html`
     <style>${ styles }</style>
     <ul>
