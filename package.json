@@ -35,6 +35,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@silexlabs/silex": "^3.0.0-alpha.147"
+    "@silexlabs/silex": "*",
+    "lit-html": "^3.2.1"
   }
 }
