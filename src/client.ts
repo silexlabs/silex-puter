@@ -1,10 +1,12 @@
 import dashboard, { OPEN } from './client/dashboard'
 import { init } from './client/puter'
-import { updateConfig } from './client/storage'
+import { updateConfig as updateConfigStorage } from './client/storage'
+import { updateConfig as updateConfigAssets } from './client/assets'
 
 export default function (config/*, options*/) {
   config.on('silex:grapesjs:start', () => {
-    updateConfig(config)
+    updateConfigStorage(config)
+    updateConfigAssets(config)
   })
   config.on('silex:grapesjs:end', () => {
     const editor = config.getEditor()
@@ -32,4 +34,6 @@ async function start(editor) {
   if(!id) {
     editor.runCommand(OPEN)
   }
+  // Workaround: This should already be the default
+  editor.StorageManager.setAutosave(true)
 }

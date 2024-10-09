@@ -1,4 +1,5 @@
 declare const puter: any
+export type PuterError = { code: number, message: string }
 
 const SILEX_DIR = './silex'
 const WEBSITE_JSON = 'website.json'
@@ -114,4 +115,10 @@ export async function renameWebsite(oldName, newName) {
   await waitForPuter()
   await puter.fs.rename(`${SILEX_DIR}/${oldName}`, newName)
   dispatchUpdate({ name: newName })
+}
+
+export async function uploadFile(files: FileList/* | File[] | Blob[]*/): Promise<string[] | PuterError> {
+  await waitForPuter()
+  await puter.fs.upload(files)
+  return Array.from(files).map(file => `./${file.name}`)
 }
