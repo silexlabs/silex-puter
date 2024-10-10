@@ -1,12 +1,12 @@
 import { getWebsite, saveWebsite } from './puter'
 //import { WebsiteData } from '@silexlabs/silex/src/types'
 
-export function updateConfig(config) {
+export default function(config) {
   config.grapesJsConfig.storageManager.type = 'puter'
   config.grapesJsConfig.plugins.unshift(plugin)
 }
 
-function validateId(id) {
+export function validateId(id) {
   if (!id) {
     // throw new Error('Missing id in the URL')
     // Workaround: id should be set to ?id= or 'default'

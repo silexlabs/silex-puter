@@ -84,6 +84,9 @@ export async function getWebsites() {
 
 export async function getWebsite(name) {
   await waitForPuter()
+  if(!name) {
+    return EMPTY_WEBSITE
+  }
   const path = `${SILEX_DIR}/${name}/${WEBSITE_JSON}`
   const content = await puter.fs.read(path)
   return JSON.parse(await blobToString(content))
@@ -98,7 +101,8 @@ export async function saveWebsite(name, website) {
 
 export async function createWebsite(name) {
   await waitForPuter()
-  await puter.fs.mkdir(`${SILEX_DIR}/${name}`)
+  await puter.fs.mkdir(`${SILEX_DIR}/${name}`),
+  await puter.fs.mkdir(`${SILEX_DIR}/${name}/assets`),
   await saveWebsite(name, EMPTY_WEBSITE)
   dispatchUpdate({ name, website: EMPTY_WEBSITE })
 }
@@ -117,8 +121,45 @@ export async function renameWebsite(oldName, newName) {
   dispatchUpdate({ name: newName })
 }
 
-export async function uploadFile(files: FileList/* | File[] | Blob[]*/): Promise<string[] | PuterError> {
+export async function uploadFile(name, files: FileList/* | File[] | Blob[]*/): Promise<string[] | PuterError> {
   await waitForPuter()
-  await puter.fs.upload(files)
-  return Array.from(files).map(file => `./${file.name}`)
+  await puter.fs.upload(files, `${SILEX_DIR}/${name}/assets`)
+  return Array.from(files).map(file => `/assets/${file.name}`)
+}
+
+export async function publishWebsite(name, hostingPath, data) {
+  await waitForPuter()
+  try {
+    await Promise.all([
+      puter.fs.mkdir(`${hostingPath}/assets`),
+      puter.fs.mkdir(`${hostingPath}/css`),
+    ])
+  } catch (error) {
+    if (error.code !== 'item_with_same_name_exists') {
+      console.error('error', error)
+    }
+  }
+  return Promise.all(data.files.map(async file => {
+    if(file.content) {
+      const path = `${hostingPath}${file.path}`
+      await puter.fs.write(path, file.content)
+    } else if(file.src) {
+      const src = `${SILEX_DIR}/${name}/assets/${file.src}`
+      const path = `${hostingPath}/assets`
+      await puter.fs.copy(src, path, { overwrite: true })
+    }
+  }))
+}
+
+export async function hostingList() {
+  await waitForPuter()
+  return puter.hosting.list()
+}
+
+export async function hostingCreate() {
+  await waitForPuter()
+  const  dirName = puter.randName()
+  await puter.fs.mkdir(dirName)
+  const subdomain = puter.randName()
+  return await puter.hosting.create(subdomain, dirName)
 }

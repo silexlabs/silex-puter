@@ -1,17 +1,25 @@
 import dashboard, { OPEN } from './client/dashboard'
 import { init } from './client/puter'
-import { updateConfig as updateConfigStorage } from './client/storage'
-import { updateConfig as updateConfigAssets } from './client/assets'
+import storage from './client/storage'
+import assets from './client/assets'
+import publish from './client/publish'
 
 export default function (config/*, options*/) {
+  // Get id from the query string
+  const urlParams = new URLSearchParams(window.location.search)
+  const id = urlParams.get('id')
+  if(id) {
+    config.id = id
+  }
   config.on('silex:grapesjs:start', () => {
-    updateConfigStorage(config)
-    updateConfigAssets(config)
+    storage(config)
+    assets(config)
+    publish(config)
   })
   config.on('silex:grapesjs:end', () => {
     const editor = config.getEditor()
     dashboard(editor)
-    setTimeout(() => start(editor))
+    setTimeout(() => start(config, editor))
   })
   config.on('silex:startup:start', async () => {
     return new Promise<void>((resolve) => {
@@ -26,12 +34,9 @@ export default function (config/*, options*/) {
   })
 }
 
-async function start(editor) {
+async function start(config, editor) {
   await init(editor)
-  // Get id from the query string
-  const urlParams = new URLSearchParams(window.location.search)
-  const id = urlParams.get('id')
-  if(!id) {
+  if(!config.id) {
     editor.runCommand(OPEN)
   }
   // Workaround: This should already be the default
