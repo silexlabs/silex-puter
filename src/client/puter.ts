@@ -101,8 +101,8 @@ export async function saveWebsite(name, website) {
 
 export async function createWebsite(name) {
   await waitForPuter()
-  await puter.fs.mkdir(`${SILEX_DIR}/${name}`),
-  await puter.fs.mkdir(`${SILEX_DIR}/${name}/assets`),
+  await puter.fs.mkdir(`${SILEX_DIR}/${name}`)
+  await puter.fs.mkdir(`${SILEX_DIR}/${name}/assets`)
   await saveWebsite(name, EMPTY_WEBSITE)
   dispatchUpdate({ name, website: EMPTY_WEBSITE })
 }
