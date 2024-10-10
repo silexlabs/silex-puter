@@ -18,7 +18,7 @@
     "build:server": "rollup -c rollup.server.config.mjs",
     "lint": "eslint src/**/*.[jt]s",
     "lint:fix": "$npm_execpath run lint -- --fix",
-    "test": "jest --rootDir src"
+    "test": "echo \"FIXME: no test yet\""
   },
   "author": "",
   "license": "MIT",
