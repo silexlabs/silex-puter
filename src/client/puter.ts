@@ -158,8 +158,9 @@ export async function hostingList() {
 
 export async function hostingCreate() {
   await waitForPuter()
-  const  dirName = puter.randName()
-  await puter.fs.mkdir(dirName)
+  const  defaultName = puter.randName()
+  const name = prompt('Enter the name of the hosting', defaultName)
+  await puter.fs.mkdir(name)
   const subdomain = puter.randName()
-  return await puter.hosting.create(subdomain, dirName)
+  return await puter.hosting.create(subdomain, name)
 }

@@ -199,7 +199,7 @@ async function renderDialog(resolve: (folder: string) => void, editor, publicati
           class="silex-button"
           @click=${async () => {
     try {
-      await createHosting()
+      await hostingCreate()
     } catch(err) {
       status = 'STATUS_ERROR'
       dialog.setUserContent(html`
@@ -220,7 +220,7 @@ async function renderDialog(resolve: (folder: string) => void, editor, publicati
     renderDialog(resolve, editor, publicationManager)
   }}
         title="Create a new hosting"
-        >+ Create Hosting</button>
+        >New hosting</button>
         ${ !!id && id !== 'fs-hosting' ? html`
           <button
             class="silex-button silex-button--primary"
@@ -234,8 +234,4 @@ async function renderDialog(resolve: (folder: string) => void, editor, publicati
     </div>
   `)
   dialog.renderDialog(null, status)
-}
-
-async function createHosting() {
-  return hostingCreate()
 }
