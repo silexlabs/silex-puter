@@ -58,11 +58,11 @@ function renderDialog(editor, config, websites) {
         <li>
           <button
             @click=${async () => {
-              config.id = name
-              editor.getModel().config.websiteId = name
-              await editor.load()
-              editor.Modal.close()
-            }}
+    config.id = name
+    editor.getModel().config.websiteId = name
+    await editor.load()
+    editor.Modal.close()
+  }}
           >${name}</button>
           <div>
             <button

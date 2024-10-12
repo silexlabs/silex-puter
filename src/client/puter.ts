@@ -164,6 +164,6 @@ export async function hostingCreate() {
   const name = prompt('Enter the name of the hosting', defaultName)
   if(!name) return
   await puter.fs.mkdir(name)
-  const subdomain = puter.randName()
+  const subdomain = name
   return await puter.hosting.create(subdomain, name)
 }
