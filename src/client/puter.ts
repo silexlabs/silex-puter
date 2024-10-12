@@ -101,6 +101,7 @@ export async function saveWebsite(name, website) {
 
 export async function createWebsite(name) {
   await waitForPuter()
+  if(!name) return
   await puter.fs.mkdir(`${SILEX_DIR}/${name}`)
   await puter.fs.mkdir(`${SILEX_DIR}/${name}/assets`)
   await saveWebsite(name, EMPTY_WEBSITE)
@@ -109,14 +110,15 @@ export async function createWebsite(name) {
 
 export async function deleteWebsite(name) {
   await waitForPuter()
-  confirm('Are you sure you want to delete this website?')
-  if(!confirm) return
+  const stop = !confirm('Are you sure you want to delete this website?')
+  if(stop) return
   await puter.fs.delete(`${SILEX_DIR}/${name}`)
   dispatchUpdate({ name })
 }
 
 export async function renameWebsite(oldName, newName) {
   await waitForPuter()
+  if(!newName || newName === oldName) return
   await puter.fs.rename(`${SILEX_DIR}/${oldName}`, newName)
   dispatchUpdate({ name: newName })
 }
@@ -160,6 +162,7 @@ export async function hostingCreate() {
   await waitForPuter()
   const  defaultName = puter.randName()
   const name = prompt('Enter the name of the hosting', defaultName)
+  if(!name) return
   await puter.fs.mkdir(name)
   const subdomain = puter.randName()
   return await puter.hosting.create(subdomain, name)

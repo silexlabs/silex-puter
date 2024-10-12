@@ -18,7 +18,7 @@ export default function (config/*, options*/) {
   })
   config.on('silex:grapesjs:end', () => {
     const editor = config.getEditor()
-    dashboard(editor)
+    dashboard(editor, config)
     setTimeout(() => start(config, editor))
   })
   config.on('silex:startup:start', async () => {
