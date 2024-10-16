@@ -38,6 +38,7 @@ export default function (editor, config) {
     },
     stop() {
       open = false
+      editor.Modal.setContent()
       editor.Modal.close()
     },
   })
@@ -61,7 +62,7 @@ function renderDialog(editor, config, websites) {
     config.id = name
     editor.getModel().config.websiteId = name
     await editor.load()
-    editor.Modal.close()
+    editor.stopCommand(OPEN)
   }}
           >${name}</button>
           <div>
