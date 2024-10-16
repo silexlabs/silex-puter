@@ -10,37 +10,44 @@ import styles from './dashboard-styles'
 
 export const OPEN = 'dashboard:open'
 
-export default function (editor, config) {
-  // Keep track of the websites
-  // Update the dialog when the websites are updated
-  let websites = []
-  let open = false
-  function setWebsites(newWebsites) {
-    websites = newWebsites
-    if (open) doRenderDialog(editor, config, websites)
-  }
-  editor.on(UPDATE_EVENT, async ({ websites }) => {
-    if(websites) {
-      await setWebsites(websites)
-    } else {
-      await setWebsites(await getWebsites())
+export default function (config) {
+  config.on('silex:grapesjs:end', () => {
+    const editor = config.getEditor()
+    // Keep track of the websites
+    // Update the dialog when the websites are updated
+    let websites = []
+    let open = false
+    function setWebsites(newWebsites) {
+      websites = newWebsites
+      if (open) doRenderDialog(editor, config, websites)
     }
-  })
+    editor.on(UPDATE_EVENT, async ({ websites }) => {
+      if (websites) {
+        await setWebsites(websites)
+      } else {
+        await setWebsites(await getWebsites())
+      }
+    })
 
-  editor.Commands.add(OPEN, {
-    async run(editor) {
-      open = true
-      editor.Modal.open({
-        title: 'Your websites',
-      })
-      await setWebsites(await getWebsites())
-      doRenderDialog(editor, config, websites)
-    },
-    stop() {
-      open = false
-      editor.Modal.setContent()
-      editor.Modal.close()
-    },
+    editor.Commands.add(OPEN, {
+      async run(editor) {
+        open = true
+        editor.Modal.open({
+          title: 'Your websites',
+        })
+        await setWebsites(await getWebsites())
+        doRenderDialog(editor, config, websites)
+      },
+      stop() {
+        open = false
+        editor.Modal.setContent()
+        editor.Modal.close()
+      },
+    })
+    // Open the dialog if no website is selected yet
+    if (!config.id) {
+      editor.runCommand(OPEN)
+    }
   })
 }
 

@@ -3,16 +3,24 @@ export type PuterError = { code: number, message: string }
 
 const SILEX_DIR = './silex'
 const WEBSITE_JSON = 'website.json'
-const EMPTY_WEBSITE = {
-  //pages: [],
-  //components: [],
-  //styles: [],
-  //fonts: [],
-  //settings: {
-  //  title: 'New website',
-  //  description: '',
-  //  keywords: '',
-  //},
+const EMPTY_WEBSITE = {}
+
+export default function (config) {
+  config.on('silex:startup:start', async () => {
+    return new Promise<void>((resolve) => {
+      // load <script src="https://js.puter.com/v2/"></script>
+      const script = document.createElement('script')
+      script.src = 'https://js.puter.com/v2/'
+      document.head.appendChild(script)
+      script.onload = () => {
+        resolve()
+      }
+    })
+  })
+  config.on('silex:grapesjs:end', () => {
+    const editor = config.getEditor()
+    init(editor)
+  })
 }
 
 let editor
@@ -40,18 +48,31 @@ function waitForPuter() {
   })
 }
 
-function blobToString(blob): Promise<string> {
+
+function getReader(blob, resolve, reject) {
+  const reader = new FileReader()
+
+  reader.onload = function () {
+    resolve(reader.result as string)
+  }
+
+  reader.onerror = function () {
+    reject(new Error('Error reading the Blob as a data URL'))
+  }
+
+  return reader
+}
+
+export async function blobToDataUrl(blob): Promise<string> {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
+    const reader = getReader(blob, resolve, reject)
+    reader.readAsDataURL(blob)
+  })
+}
 
-    reader.onload = function() {
-      resolve(reader.result as string)
-    }
-
-    reader.onerror = function() {
-      reject(new Error('Error reading the Blob as a string'))
-    }
-
+export async function blobToString(blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = getReader(blob, resolve, reject)
     reader.readAsText(blob)
   })
 }
@@ -127,6 +148,11 @@ export async function uploadFile(name, files: FileList/* | File[] | Blob[]*/): P
   await waitForPuter()
   await puter.fs.upload(files, `${SILEX_DIR}/${name}/assets`)
   return Array.from(files).map(file => `/assets/${file.name}`)
+}
+
+export async function downloadFile(name, path) {
+  await waitForPuter()
+  return puter.fs.read(`${SILEX_DIR}/${name}${path}`)
 }
 
 export async function publishWebsite(name, hostingPath, data) {

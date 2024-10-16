@@ -2,8 +2,10 @@ import { getWebsite, saveWebsite } from './puter'
 //import { WebsiteData } from '@silexlabs/silex/src/types'
 
 export default function(config) {
-  config.grapesJsConfig.storageManager.type = 'puter'
-  config.grapesJsConfig.plugins.unshift(plugin)
+  config.on('silex:grapesjs:start', () => {
+    config.grapesJsConfig.storageManager.type = 'puter'
+    config.grapesJsConfig.plugins.unshift(plugin)
+  })
 }
 
 export function validateId(editor, id) {
