@@ -1,14 +1,18 @@
 # Silex Puter Plugin
 
-A good place to start writing a Silex plugin. It supports server and/or client side plugins, in Javascript and TypeScript. Check [Silex developer docs if you need help](https://docs.silex.me/en/dev) or [join the discussions in the forum](https://community.silex.me/)
+The **Silex Puter Plugin** brings Silex’s professional website-building capabilities to the Puter environment, letting users create, save, and publish static websites directly in Puter. This plugin enables seamless integration, making it easier than ever to use Silex within Puter for web design and content management.
 
-Start creating your plugin from `src/main.js` or `src/main.ts`, [read the Development section](#development)
+Here is [the code of a Silex instance using this plugin](https://github.com/silexlabs/puter.silex.me) and [the instance is available on puter.silex.me](https://puter.silex.me)
+
+Check [Silex developer docs if you need help on seting up Silex to use this plugin](https://docs.silex.me/en/dev) or [join the discussions in the forum](https://community.silex.me/)
+
+[🌐 **Try Silex on Puter**](https://puter.silex.me) – Fully integrated and ready for your next website project!
 
 Features / TODO:
 
 * [x] Open / save website to / from puter file system
 * [x] Publish website to puter hosting
-* [ ] Upload assets to puter
+* [x] Upload assets to puter
 * [ ] Test and debug
 * [ ] Docs
 * [ ] Write tests
