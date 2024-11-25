@@ -1,5 +1,4 @@
 import typescript from '@rollup/plugin-typescript';
-import eslint from '@rollup/plugin-eslint';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 
@@ -12,10 +11,11 @@ export default {
   },
   external: ['@silexlabs/silex'],
   plugins: [
-    eslint({
-      fix: true,
-      include: ['src/client/**/*.ts', 'src/client.ts'],
-    }), // Linting
+    // Removed eslint because it breaks the build in npm workspace mode
+    //eslint({
+    //  fix: true,
+    //  include: ['src/client/**/*.ts', 'src/client.ts'],
+    //}), // Linting
     typescript({
       include: ['src/client/**/*.ts', 'src/client.ts'],
     }),
