@@ -12,9 +12,14 @@ export default {
   },
   external: ['@silexlabs/silex'],
   plugins: [
-    typescript(), // Supports typescript
+    eslint({
+      fix: true,
+      include: ['src/client/**/*.ts', 'src/client.ts'],
+    }), // Linting
+    typescript({
+      include: ['src/client/**/*.ts', 'src/client.ts'],
+    }),
     nodeResolve(), // Import modules from node_modules
-    eslint(), // Linting
     commonjs(), // Convert CommonJS modules to ES6 when importing node_modules
   ],
 };
