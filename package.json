@@ -1,6 +1,6 @@
 {
   "name": "@silexlabs/silex-puter",
-  "version": "0.0.9-1",
+  "version": "0.0.9-2",
   "description": "Silex plugin",
   "main": "dist/server.js",
   "module": "dist/client.js",
