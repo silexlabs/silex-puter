@@ -85,4 +85,4 @@ $ git push origin main --follow-tags
 
 ## License
 
-MIT
+AGPL-3.0
