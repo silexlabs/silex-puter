@@ -27,7 +27,10 @@
     "silex-plugin",
     "plugin"
   ],
-  "author": "lexoyo",
+  "author": {
+    "name": "Alex Hoyau",
+    "url": "https://lexoyo.me/"
+  },
   "license": "AGPL-3.0",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
