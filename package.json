@@ -7,6 +7,7 @@
   "files": [
     "dist",
     "src",
+    "README.md",
     "LICENSE"
   ],
   "scripts": {
@@ -21,8 +22,13 @@
     "lint:fix": "$npm_execpath run lint -- --fix",
     "test": "echo \"FIXME: no test yet\""
   },
-  "author": "",
-  "license": "MIT",
+  "keywords": [
+    "silex",
+    "silex-plugin",
+    "plugin"
+  ],
+  "author": "lexoyo",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-eslint": "^9.0.5",
