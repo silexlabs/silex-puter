@@ -46,7 +46,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@silexlabs/silex": "3.4.0",
+    "@silexlabs/silex": "3.5.0",
     "lit-html": "^3.2.1"
   }
 }
