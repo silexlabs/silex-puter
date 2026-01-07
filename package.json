@@ -46,7 +46,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@silexlabs/silex": "3.6.0-canary.1",
+    "@silexlabs/silex": "3.6.0-canary.2",
     "lit-html": "^3.2.1"
   }
 }
